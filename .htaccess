@@ -1,0 +1,47 @@
+# Gruubuya — root Apache config (cPanel)
+
+Options -Indexes
+AddDefaultCharset UTF-8
+
+# ---------------------------------------------------------------- redirects
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Canonical host: www -> apex
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---------------------------------------------------------------- protect files
+# Dotfiles (.gitignore, .ftp-deploy-sync-state.json, .htaccess itself, ...)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Repo/docs files that should not be served
+<FilesMatch "\.(?i:md|sql|sample\.php|ya?ml|log)$">
+    Require all denied
+</FilesMatch>
+
+# ---------------------------------------------------------------- security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# ---------------------------------------------------------------- assets cache
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 7 days"
+    ExpiresByType image/png "access plus 7 days"
+    ExpiresByType image/webp "access plus 7 days"
+    ExpiresByType image/gif "access plus 7 days"
+    ExpiresByType text/css "access plus 1 day"
+    ExpiresByType application/javascript "access plus 1 day"
+</IfModule>
