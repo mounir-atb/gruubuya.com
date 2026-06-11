@@ -1,0 +1,5 @@
+includes/config.php
+uploads/avatars/*
+!uploads/avatars/.htaccess
+.DS_Store
+Thumbs.db
