@@ -37,9 +37,6 @@ window.GB = {
 <body class="bg-white text-gray-900 min-h-screen flex flex-col">
 <nav class="border-b border-gray-200 bg-white sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 h-14 flex items-center gap-2">
-        <a href="<?= $me ? 'feed.php' : 'index.php' ?>" class="text-xl font-extrabold text-violet-600 mr-2">
-            <i class="fa-solid fa-cubes mr-1"></i>Gruubuya
-        </a>
         <?php if ($me): ?>
             <?= $navLink('feed.php', 'feed', 'fa-solid fa-house', 'Feed') ?>
             <?= $navLink('lobbies.php', 'lobbies', 'fa-solid fa-people-group', 'Lobbies') ?>
