@@ -42,8 +42,6 @@ function notif_text(string $type, ?array $actor, array $data): string
     return match ($type) {
         'friend_request' => $name . ' sent you a friend request',
         'friend_accept'  => $name . ' accepted your friend request',
-        'post_like'      => $name . ' liked your post',
-        'post_comment'   => $name . ' commented on your post',
         'lobby_kick'     => 'You were removed from lobby "' . ($data['lobby_name'] ?? '') . '"',
         default          => 'New notification',
     };
@@ -54,7 +52,6 @@ function notif_url(string $type, ?array $actor, array $data): string
     return match ($type) {
         'friend_request'             => 'friends.php?tab=requests',
         'friend_accept'              => $actor ? 'profile.php?u=' . rawurlencode($actor['username']) : 'friends.php',
-        'post_like', 'post_comment'  => isset($data['post_id']) ? 'post.php?id=' . (int) $data['post_id'] : 'feed.php',
         default                      => 'notifications.php',
     };
 }
@@ -64,8 +61,6 @@ function notif_icon(string $type): string
     return match ($type) {
         'friend_request' => 'fa-solid fa-user-plus',
         'friend_accept'  => 'fa-solid fa-user-check',
-        'post_like'      => 'fa-solid fa-heart',
-        'post_comment'   => 'fa-solid fa-comment',
         'lobby_kick'     => 'fa-solid fa-door-open',
         default          => 'fa-solid fa-bell',
     };

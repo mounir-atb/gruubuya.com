@@ -106,66 +106,9 @@
         }
     });
 
-    // ------------------------------------------------------------ posts (feed / profile / post pages)
+    // ------------------------------------------------------------ lobby & friend actions
 
     document.addEventListener('click', async function (e) {
-        var likeBtn = e.target.closest('[data-like]');
-        if (likeBtn) {
-            try {
-                var j = await api('api/posts.php', {action: 'like', post_id: +likeBtn.dataset.like});
-                likeBtn.querySelector('[data-like-count]').textContent = j.count;
-                likeBtn.querySelector('i').className = (j.liked ? 'fa-solid' : 'fa-regular') + ' fa-heart';
-                likeBtn.className = 'flex items-center gap-1.5 '
-                    + (j.liked ? 'text-violet-600' : 'text-gray-500 hover:text-violet-600');
-            } catch (err) { toast(err.message, 'error'); }
-            return;
-        }
-
-        var cBtn = e.target.closest('[data-comments]');
-        if (cBtn) {
-            var article = cBtn.closest('article');
-            var box = article.querySelector('[data-comments-box]');
-            if (box.classList.contains('hidden')) {
-                box.classList.remove('hidden');
-                if (!box.dataset.loaded) {
-                    box.dataset.loaded = '1';
-                    try {
-                        var jc = await api('api/posts.php?action=comments&post_id=' + cBtn.dataset.comments);
-                        box.querySelector('[data-comments-list]').innerHTML = jc.html;
-                    } catch (err) { toast(err.message, 'error'); }
-                }
-                var input = box.querySelector('input[name=body]');
-                if (input) input.focus();
-            } else {
-                box.classList.add('hidden');
-            }
-            return;
-        }
-
-        var delBtn = e.target.closest('[data-del-post]');
-        if (delBtn) {
-            if (!confirm('Delete this post?')) return;
-            try {
-                await api('api/posts.php', {action: 'delete', post_id: +delBtn.dataset.delPost});
-                delBtn.closest('article').remove();
-                toast('Post deleted.', 'success');
-            } catch (err) { toast(err.message, 'error'); }
-            return;
-        }
-
-        var moreBtn = e.target.closest('[data-load-more]');
-        if (moreBtn) {
-            var url = 'api/posts.php?action=' + moreBtn.dataset.mode + '&before_id=' + moreBtn.dataset.before;
-            if (moreBtn.dataset.user) url += '&user_id=' + moreBtn.dataset.user;
-            try {
-                var jm = await api(url);
-                document.getElementById('postsList').insertAdjacentHTML('beforeend', jm.html);
-                moreBtn.dataset.before = jm.last;
-                if (!jm.more) moreBtn.parentElement.remove();
-            } catch (err) { toast(err.message, 'error'); }
-            return;
-        }
-
         var joinBtn = e.target.closest('[data-join-lobby]');
         if (joinBtn) {
             try {
@@ -194,36 +137,6 @@
 
     document.addEventListener('submit', async function (e) {
         var f = e.target;
-
-        if (f.id === 'composerForm') {
-            e.preventDefault();
-            var ta = f.querySelector('textarea[name=body]');
-            var body = ta.value.trim();
-            if (!body) return;
-            try {
-                var j = await api('api/posts.php', {action: 'create', body: body});
-                var empty = document.getElementById('emptyFeed');
-                if (empty) empty.remove();
-                document.getElementById('postsList').insertAdjacentHTML('afterbegin', j.html);
-                ta.value = '';
-            } catch (err) { toast(err.message, 'error'); }
-            return;
-        }
-
-        if (f.matches('[data-comment-form]')) {
-            e.preventDefault();
-            var input = f.querySelector('input[name=body]');
-            var text = input.value.trim();
-            if (!text) return;
-            try {
-                var jc = await api('api/posts.php', {action: 'comment', post_id: +f.dataset.pid, body: text});
-                f.closest('[data-comments-box]').querySelector('[data-comments-list]')
-                    .insertAdjacentHTML('beforeend', jc.html);
-                f.closest('article').querySelector('[data-comment-count]').textContent = jc.count;
-                input.value = '';
-            } catch (err) { toast(err.message, 'error'); }
-            return;
-        }
 
         if (f.id === 'createLobbyForm') {
             e.preventDefault();

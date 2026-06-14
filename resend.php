@@ -3,7 +3,7 @@ require __DIR__ . '/includes/bootstrap.php';
 
 $me = require_login();
 if ($me['email_verified_at']) {
-    redirect('feed.php');
+    redirect('profile.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

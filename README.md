@@ -34,7 +34,7 @@ Old events are pruned opportunistically (15-minute retention).
 | Path | Purpose |
 | --- | --- |
 | `includes/` | bootstrap (config/PDO/session/CSRF), auth, mailer (raw SMTP), bus, social helpers, layout |
-| `api/` | JSON endpoints: posts, friends, lobbies, lobby_chat, events, ws_token |
+| `api/` | JSON endpoints: friends, lobbies, lobby_chat, events, ws_token |
 | `assets/js/` | `app.js` (UI + post/friend/lobby actions), `realtime.js` (WS + polling client) |
 | `ws/server.php` | dependency-free WebSocket push server (CLI) |
 | `db/install.sql` | full schema, DROP + CREATE |
@@ -45,9 +45,9 @@ Old events are pruned opportunistically (15-minute retention).
 - **Auth**: register, login, email verification (required before use),
   password reset — all email via raw-SMTP mailer (ssl:465), no Composer.
 - **Profiles**: display name, bio, avatar upload, online indicator.
-- **Social**: friend requests (send/accept/decline/cancel/remove), user
-  search, posts with likes + comments, friends feed, single-post pages.
+- **Social**: friend requests (send/accept/decline/cancel/remove) and user
+  search.
 - **Lobbies**: public/private (8-char invite codes), capacity limits,
   realtime chat, member list with online dots, owner kick/delete.
 - **Notifications**: bell badge + toasts in realtime; friend requests,
-  accepts, likes, comments, lobby kicks.
+  accepts, lobby kicks.

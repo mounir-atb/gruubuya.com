@@ -2,7 +2,7 @@
 require __DIR__ . '/includes/bootstrap.php';
 
 if (current_user()) {
-    redirect('feed.php');
+    redirect('profile.php');
 }
 
 $errors = [];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Invalid username/email or password.';
         } else {
             login_user((int) $user['id']);
-            redirect('feed.php');
+            redirect('profile.php');
         }
     }
 }

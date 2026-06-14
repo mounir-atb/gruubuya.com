@@ -20,7 +20,6 @@ if (!$user) {
 
 $isMe    = (int) $user['id'] === (int) $me['id'];
 $state   = $isMe ? '' : friend_state((int) $me['id'], (int) $user['id']);
-$posts   = fetch_posts($me, (int) $user['id']);
 $friends = friend_count((int) $user['id']);
 
 $pageTitle = $user['display_name'] !== '' ? $user['display_name'] : $user['username'];
@@ -75,26 +74,5 @@ require __DIR__ . '/includes/layout/header.php';
             <?php endif; ?>
         </div>
     </div>
-
-    <h2 class="font-semibold text-gray-700 pt-2">Posts</h2>
-    <div id="postsList" class="space-y-4">
-        <?php if (!$posts): ?>
-            <div class="text-center py-12 text-gray-400">
-                <i class="fa-regular fa-comments text-4xl mb-3"></i>
-                <p>No posts yet.</p>
-            </div>
-        <?php else: ?>
-            <?php foreach ($posts as $p) echo post_card_html($p, $me); ?>
-        <?php endif; ?>
-    </div>
-
-    <?php if (count($posts) === POSTS_PAGE_SIZE): ?>
-        <div class="text-center">
-            <button data-load-more data-mode="user" data-user="<?= (int) $user['id'] ?>" data-before="<?= (int) end($posts)['id'] ?>"
-                    class="border border-gray-200 hover:border-violet-300 hover:text-violet-700 text-sm font-medium rounded-xl px-6 py-2.5">
-                Load more
-            </button>
-        </div>
-    <?php endif; ?>
 </div>
 <?php require __DIR__ . '/includes/layout/footer.php'; ?>

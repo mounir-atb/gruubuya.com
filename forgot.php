@@ -2,7 +2,7 @@
 require __DIR__ . '/includes/bootstrap.php';
 
 if (current_user()) {
-    redirect('feed.php');
+    redirect('profile.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

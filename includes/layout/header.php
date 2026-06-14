@@ -38,7 +38,6 @@ window.GB = {
 <nav class="border-b border-gray-200 bg-white sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 h-14 flex items-center gap-2">
         <?php if ($me): ?>
-            <?= $navLink('feed.php', 'feed', 'fa-solid fa-house', 'Feed') ?>
             <?= $navLink('lobbies.php', 'lobbies', 'fa-solid fa-people-group', 'Lobbies') ?>
             <?= $navLink('friends.php', 'friends', 'fa-solid fa-user-group', 'Friends') ?>
             <div class="ml-auto flex items-center gap-1">

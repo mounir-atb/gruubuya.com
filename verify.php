@@ -29,4 +29,4 @@ db()->prepare('UPDATE users SET email_verified_at = NOW() WHERE id = ? AND email
 
 flash('success', 'Email verified — welcome to Gruubuya!');
 $me = current_user();
-redirect($me && (int) $me['id'] === $userId ? 'feed.php' : 'login.php');
+redirect($me && (int) $me['id'] === $userId ? 'profile.php' : 'login.php');
